@@ -9,7 +9,7 @@ import (
 )
 
 func MainProcess() {
-	mongoDBURL := "192.168.202.131:27017"
+	var mongoDBURL = "192.168.202.131:27017"
 	session, err := mgo.Dial(mongoDBURL)
 	if err != nil {
 		panic(err)
