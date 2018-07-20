@@ -3,7 +3,7 @@ package behaviorDrivenTest_test
 import "github.com/DATA-DOG/godog"
 
 func thereAreGodogs(arg1 int) error {
-return godog.ErrPending
+	return godog.ErrPending
 }
 
 func iEat(arg1 int) error {
@@ -19,4 +19,3 @@ func FeatureContext(s *godog.Suite) {
 	s.Step(`^I eat (\d+)$`, iEat)
 	s.Step(`^there should be (\d+) remaining$`, thereShouldBeRemaining)
 }
-
