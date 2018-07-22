@@ -1,16 +1,16 @@
 package mongoAdapter
 
 import (
-	"fmt"
-	"log"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"ap0001_mongoDB_driver_go/internal/initialConfig"
+	"net/http"
+	"encoding/json"
 )
 
-var mongoDbURL = initialConfig.GetMongoDBEndpoint() + ":" + initialConfig.GetMongoDBPort()
-
+/*
 func MongoAdapterTest() {
+	var mongoDbURL = initialConfig.GetMongoDBEndpoint() + ":" + initialConfig.GetMongoDBPort()
 	session, err := mgo.Dial(mongoDbURL)
 	if err != nil {
 		panic(err)
@@ -34,4 +34,46 @@ func MongoAdapterTest() {
 	}
 
 	fmt.Println("Phone:", result.Phone)
+}
+*/
+
+type Server struct {
+	session *mgo.Session
+}
+
+type ClientConfig struct {
+	Id              bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	seqno           int           `json:"seqno"`
+	applicationName string        `json:"applicationName"`
+	site            string        `json:"site"`
+	binaryVersion   string        `json:"binaryVersion"`
+	servingPort     int           `json:"servingPort"`
+}
+
+func NewServer() (*Server, error) {
+	var mongoDbURL = initialConfig.GetMongoDBEndpoint() + ":" + initialConfig.GetMongoDBPort()
+	session, err := mgo.Dial(mongoDbURL)
+	if err != nil {
+		return nil, err
+	}
+	return &Server{session: session}, nil
+}
+
+func (s *Server) Close() {
+	s.session.Close()
+}
+
+func (s *Server) GetClientConfig(w http.ResponseWriter, r *http.Request) {
+	session := s.session.Copy()
+	defer session.Close()
+
+	clientConfig := []ClientConfig{}
+	collection := session.DB("config").C("vic_application")
+	err := collection.Find(bson.M{}).All(&clientConfig)
+	if err != nil {
+		panic(err)
+	}
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	j, _ := json.Marshal(clientConfig)
+	w.Write(j)
 }

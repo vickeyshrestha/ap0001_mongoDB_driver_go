@@ -7,12 +7,20 @@ import (
 	"time"
 	"net/http"
 	"log"
+	"ap0001_mongoDB_driver_go/internal/mongoAdapter"
 )
 
 func MainProcess() {
 	request := mux.NewRouter().StrictSlash(false)
 
+	mongoServer, err := mongoAdapter.NewServer()
+	if err != nil {
+		panic(err)
+	}
+	defer mongoServer.Close()
+
 	request.HandleFunc("/health", healthCheck.HealthCheckHandler)
+	request.HandleFunc("/testconfig", mongoServer.GetClientConfig)
 
 	server:= &graceful.Server{
 		Timeout: 30 * time.Second,
@@ -24,7 +32,7 @@ func MainProcess() {
 
 	log.Printf("Application started successfully. Serving port 8085")
 
-	err:= server.ListenAndServe()
+	server.ListenAndServe()
 	if err!= nil {
 		log.Printf("Server failed to start | %v", err)
 	}
