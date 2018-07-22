@@ -3,6 +3,30 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "8NV9bTWQJ2LnkNqegmOMdWzECao=",
+			"path": "github.com/DATA-DOG/godog",
+			"revision": "943635096a91d89d87b4bb07c395d96843a27c2f",
+			"revisionTime": "2018-03-30T09:55:25Z"
+		},
+		{
+			"checksumSHA1": "uP3WWvc0NajzwEOINYrS7hev458=",
+			"path": "github.com/DATA-DOG/godog/colors",
+			"revision": "943635096a91d89d87b4bb07c395d96843a27c2f",
+			"revisionTime": "2018-03-30T09:55:25Z"
+		},
+		{
+			"checksumSHA1": "vdJ5FWgr8deoEi8bigcnEd5J/kE=",
+			"path": "github.com/DATA-DOG/godog/gherkin",
+			"revision": "943635096a91d89d87b4bb07c395d96843a27c2f",
+			"revisionTime": "2018-03-30T09:55:25Z"
+		},
+		{
+			"checksumSHA1": "LxxjJ5wWRn4H7Mpt4FIf1hbF7+M=",
+			"path": "github.com/gorilla/mux",
+			"revision": "cb4698366aa625048f3b815af6a0dea8aef9280a",
+			"revisionTime": "2018-06-05T21:15:56Z"
+		},
+		{
 			"checksumSHA1": "QS15F7XdFG6tSDF3LfAZJTEgbK8=",
 			"path": "gopkg.in/mgo.v2",
 			"revision": "9856a29383ce1c59f308dd1cf0363a79b5bef6b5",
@@ -31,6 +55,12 @@
 			"path": "gopkg.in/mgo.v2/internal/scram",
 			"revision": "9856a29383ce1c59f308dd1cf0363a79b5bef6b5",
 			"revisionTime": "2018-07-05T11:36:04Z"
+		},
+		{
+			"checksumSHA1": "opa2Km2cdbMmhRTAKsRj406k++Q=",
+			"path": "gopkg.in/tylerb/graceful.v1",
+			"revision": "4654dfbb6ad53cb5e27f37d99b02e16c1872fbbb",
+			"revisionTime": "2017-02-01T19:58:55Z"
 		}
 	],
 	"rootPath": "ap0001_mongoDB_driver_go"
