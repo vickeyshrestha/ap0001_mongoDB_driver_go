@@ -20,7 +20,7 @@ func MainProcess() {
 	defer mongoServer.Close()
 
 	request.HandleFunc("/health", healthCheck.HealthCheckHandler)
-	request.HandleFunc("/testconfig", mongoServer.GetClientConfig)
+	request.HandleFunc("/allconfigs", mongoServer.GetClientConfig)
 
 	server:= &graceful.Server{
 		Timeout: 30 * time.Second,

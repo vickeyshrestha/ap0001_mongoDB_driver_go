@@ -41,15 +41,6 @@ type Server struct {
 	session *mgo.Session
 }
 
-type ClientConfig struct {
-	Id              bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	Seqno           int           `json:"Seqno"`
-	ApplicationName string        `json:"ApplicationName" bson:"applicationName,omitempty"`
-	Site            string        `json:"Site" bson:"site,omitempty"`
-	BinaryVersion   string        `json:"BinaryVersion"`
-	ServingPort     int           `json:"ServingPort"`
-}
-
 func NewServer() (*Server, error) {
 	var mongoDbURL = initialConfig.GetMongoDBEndpoint() + ":" + initialConfig.GetMongoDBPort()
 	session, err := mgo.Dial(mongoDbURL)
@@ -67,13 +58,14 @@ func (s *Server) GetClientConfig(w http.ResponseWriter, r *http.Request) {
 	session := s.session.Copy()
 	defer session.Close()
 
-	clientConfig := []ClientConfig{}
+	//clientConfig := []ClientConfig{}
+	var clientConfig []bson.M // Since we don't know the exact structure of JSON, we will use a map instead of struct
 	collection := session.DB("config").C("vic_application")
 	err := collection.Find(bson.M{}).All(&clientConfig)
 	if err != nil {
 		panic(err)
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	j, _ := json.Marshal(clientConfig)
-	w.Write(j)
+	responseByte, _ := json.Marshal(clientConfig)
+	w.Write(responseByte)
 }

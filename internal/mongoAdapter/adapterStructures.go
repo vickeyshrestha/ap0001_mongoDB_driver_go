@@ -1,6 +1,12 @@
 package mongoAdapter
 
-type Person struct {
-	Name string
-	Phone string
+import "gopkg.in/mgo.v2/bson"
+
+type ClientConfig struct {
+	Id              bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	Seqno           int           `json:"Seqno"`
+	ApplicationName string        `json:"ApplicationName" bson:"applicationName,omitempty"`
+	Site            string        `json:"Site" bson:"site,omitempty"`
+	BinaryVersion   string        `json:"BinaryVersion"`
+	ServingPort     int           `json:"ServingPort"`
 }
