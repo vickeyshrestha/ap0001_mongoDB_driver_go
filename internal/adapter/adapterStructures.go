@@ -1,4 +1,4 @@
-package structures
+package adapter
 
 type Person struct {
 	Name string
