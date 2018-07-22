@@ -16,13 +16,13 @@ RUN mkdir -p /go/src/ap0001_mongoDB_driver_go/resources
 
 ADD resources/config.json /go/src/ap0001_mongoDB_driver_go/resources
 
-ADD ap0001_mongoDB_driver_go /
+ADD ap0001-mongoDB-driver /
 
-RUN useradd -c 'Vickey Shrestha' -m -l -d /apps/mongoDbDriver -u 1000 -s /bin/bash admin
-RUN chown -R admin /go
-RUN chown -R admin /apps
-USER 1000
+#RUN useradd -c 'Vickey Shrestha' -m -l -d /apps/mongoDbDriver -u 1000 -s /bin/bash admin
+#RUN chown -R admin /go
+#RUN chown -R admin /apps
+#USER 1000
 
-ENTRYPOINT ["ap0001-mongoDB-driver"]
+ENTRYPOINT ["/ap0001-mongoDB-driver"]
 
 EXPOSE 8085
