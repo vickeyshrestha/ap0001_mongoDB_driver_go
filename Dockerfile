@@ -14,9 +14,9 @@ ENV configFile=/go/src/ap0001_mongoDB_driver_go/resources/config.json
 
 RUN mkdir -p /go/src/ap0001_mongoDB_driver_go/resources
 
-ADD resources/config.json
+ADD resources/config.json /go/src/ap0001_mongoDB_driver_go/resources
 
-ADD ap0001_mongoDB_driver_go
+ADD ap0001_mongoDB_driver_go /
 
 RUN useradd -c 'Vickey Shrestha' -m -l -d /apps/mongoDbDriver -u 1000 -s /bin/bash admin
 RUN chown -R admin /go
