@@ -43,11 +43,11 @@ type Server struct {
 
 type ClientConfig struct {
 	Id              bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	seqno           int           `json:"seqno"`
-	applicationName string        `json:"applicationName"`
-	site            string        `json:"site"`
-	binaryVersion   string        `json:"binaryVersion"`
-	servingPort     int           `json:"servingPort"`
+	Seqno           int           `json:"Seqno"`
+	ApplicationName string        `json:"ApplicationName" bson:"applicationName,omitempty"`
+	Site            string        `json:"Site" bson:"site,omitempty"`
+	BinaryVersion   string        `json:"BinaryVersion"`
+	ServingPort     int           `json:"ServingPort"`
 }
 
 func NewServer() (*Server, error) {
