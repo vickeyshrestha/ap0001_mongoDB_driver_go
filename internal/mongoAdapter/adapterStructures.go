@@ -1,4 +1,4 @@
-package adapter
+package mongoAdapter
 
 type Person struct {
 	Name string

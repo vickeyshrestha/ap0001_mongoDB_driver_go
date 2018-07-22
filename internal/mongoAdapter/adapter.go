@@ -1,15 +1,17 @@
-package adapter
+package mongoAdapter
 
 import (
 	"fmt"
 	"log"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+	"ap0001_mongoDB_driver_go/internal/initialConfig"
 )
 
+var mongoDbURL = initialConfig.GetMongoDBEndpoint() + ":" + initialConfig.GetMongoDBPort()
+
 func MongoAdapterTest() {
-	var mongoDBURL = "192.168.202.131:27017"
-	session, err := mgo.Dial(mongoDBURL)
+	session, err := mgo.Dial(mongoDbURL)
 	if err != nil {
 		panic(err)
 	}
