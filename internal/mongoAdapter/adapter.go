@@ -54,6 +54,9 @@ func (s *Server) Close() {
 	s.session.Close()
 }
 
+/*
+	Returns all records as JSON from collection
+*/
 func (s *Server) GetClientConfigAll(w http.ResponseWriter, r *http.Request) {
 	session := s.session.Copy()
 	defer session.Close()
@@ -70,6 +73,9 @@ func (s *Server) GetClientConfigAll(w http.ResponseWriter, r *http.Request) {
 	w.Write(responseByte)
 }
 
+/*
+	Returns collection as JSON based of Application Name, Binary Version and Site
+*/
 func (s *Server) GetClientConfigBasedOnAppNameAndBinaryVersionAndSite(w http.ResponseWriter, r *http.Request) {
 	applicationName := r.URL.Query().Get("app")
 	binaryVersion := r.URL.Query().Get("bin")
