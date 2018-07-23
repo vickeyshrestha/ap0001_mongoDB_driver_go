@@ -44,8 +44,25 @@ Here the the endpoints for this application:
 | /getallconfigs      | http://192.168.202.131:8085/getallconfigs      |   Gets whole data response from collection |
 | /getconfig?app=<APPLICATION_NAME>&bin=<BINARY_VERSION>&site=<SITE_NAME> | http://localhost:8085/getconfig?app=testApplication&bin=0.0.2&site=dev      |    Returns the document based on mandatory parameters. The mandatory parameters are app, bin and site |
 
+<br>
 
-**5. Running in non-containerized environment** 
+**5. Insert a new config record**
+
+The endpoint to insert new record is `/insertnew`. It is a POST request and accepts JSON body. For example:
+
+    Example: 
+        Type-> POST
+        Http Interface-> http://localhost:8085/insert
+        Body ->
+            {
+                "applicationName": "testApplication",
+                "binaryVersion": "0.0.2",
+                "httpConnectionTimeout": 5,
+                "servingPort": 8099,
+                "site": "dev"
+             }
+
+**6. Running in non-containerized environment** 
 
 If you simply want to run this application in its non-containerized form, i.e. just through cmd/main.go, you have to setup the follwoing two environment variables:
 

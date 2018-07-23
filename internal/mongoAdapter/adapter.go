@@ -6,6 +6,7 @@ import (
 	"ap0001_mongoDB_driver_go/internal/initialConfig"
 	"net/http"
 	"encoding/json"
+	"io/ioutil"
 )
 
 /*
@@ -55,9 +56,27 @@ func (s *Server) Close() {
 }
 
 /*
+	Inserts new record (configuration) into MongoDB
+ */
+func (s *Server) InsertNewConfig(w http.ResponseWriter, r *http.Request) {
+	session := s.session.Copy()
+	defer session.Close()
+
+	var clientConfig bson.M // Since we don't know the exact structure of JSON, we will use a map instead of struct
+	b, _ := ioutil.ReadAll(r.Body)
+	json.Unmarshal(b, &clientConfig)
+	collection := session.DB(initialConfig.GetMongoConfigurationDatabase()).C(initialConfig.GetMongoConfigurationDbCollectionName())
+	if err := collection.Insert(clientConfig); err != nil {
+		panic(err)
+	}
+	w.Write([]byte("Successfully Inserted config"))
+}
+
+/*
 	Returns all records as JSON from collection
 */
 func (s *Server) GetClientConfigAll(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	session := s.session.Copy()
 	defer session.Close()
 

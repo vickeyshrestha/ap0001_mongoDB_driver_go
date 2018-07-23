@@ -23,6 +23,8 @@ func MainProcess() {
 	request.HandleFunc("/getallconfigs", mongoServer.GetClientConfigAll).Methods("GET")
 	request.HandleFunc("/getconfig", mongoServer.GetClientConfigBasedOnAppNameAndBinaryVersionAndSite).Methods("GET")
 
+	request.HandleFunc("/insertnew", mongoServer.InsertNewConfig).Methods("POST")
+
 	server:= &graceful.Server{
 		Timeout: 30 * time.Second,
 		Server : &http.Server{
