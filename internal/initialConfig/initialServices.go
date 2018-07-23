@@ -55,3 +55,7 @@ func GetAppStartupTime() time.Time {
 	return appStartUpTime
 }
 
+func GetMongoHostAndPort() *string{
+	return mongoDbHostAndPort
+}
+

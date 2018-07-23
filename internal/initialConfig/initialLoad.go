@@ -5,6 +5,7 @@ import (
 	"os"
 	"log"
 	"encoding/json"
+	"flag"
 )
 
 const applicationName  = "MongodbDriver"
@@ -15,6 +16,7 @@ var(
 	//var for config file. We will read as environment variable.
 	// eg. configFile=C:\Projects-Golang\src\ap0001_mongoDB_driver_go\resources\config.json
 	configJsonFile, _ = os.Open(os.Getenv("configFile"))
+	mongoDbHostAndPort = flag.String("mongoHostAndPort", os.Getenv("mongoHostAndPort"),"Path for mongo db endpoint")
 	configFromJsonFile = configFileStruct{}
 )
 
