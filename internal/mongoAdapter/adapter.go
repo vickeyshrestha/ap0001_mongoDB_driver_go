@@ -65,11 +65,18 @@ func (s *Server) InsertNewConfig(w http.ResponseWriter, r *http.Request) {
 	var clientConfig bson.M // Since we don't know the exact structure of JSON, we will use a map instead of struct
 	b, _ := ioutil.ReadAll(r.Body)
 	json.Unmarshal(b, &clientConfig)
-	collection := session.DB(initialConfig.GetMongoConfigurationDatabase()).C(initialConfig.GetMongoConfigurationDbCollectionName())
-	if err := collection.Insert(clientConfig); err != nil {
-		panic(err)
+	_, okAppName := clientConfig["applicationName"]
+	_, okBinVer := clientConfig["binaryVersion"]
+	_, okSite := clientConfig["site"]
+	if !(okAppName && okBinVer && okSite) {
+		w.Write([]byte("Missing field. The fields applicationName, binaryVersion and site are mandatory"))
+	} else {
+		collection := session.DB(initialConfig.GetMongoConfigurationDatabase()).C(initialConfig.GetMongoConfigurationDbCollectionName())
+		if err := collection.Insert(clientConfig); err != nil {
+			panic(err)
+		}
+		w.Write([]byte("Successfully Inserted config"))
 	}
-	w.Write([]byte("Successfully Inserted config"))
 }
 
 /*

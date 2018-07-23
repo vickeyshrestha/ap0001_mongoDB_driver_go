@@ -61,6 +61,8 @@ The endpoint to insert new record is `/insertnew`. It is a POST request and acce
                 "servingPort": 8099,
                 "site": "dev"
              }
+             
+     Note: The fields applicationName, binaryVersion and site are mandatory. Other fields are up to developers on how they want to add them.
 
 **6. Running in non-containerized environment** 
 
