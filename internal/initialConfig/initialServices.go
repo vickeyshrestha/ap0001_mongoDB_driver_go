@@ -38,4 +38,7 @@ func GetHttpClient() http.Client {
 	return client
 }
 
+func GetAppStartupTime() time.Time {
+	return appStartUpTime
+}
 
