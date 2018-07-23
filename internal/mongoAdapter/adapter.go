@@ -54,7 +54,7 @@ func (s *Server) Close() {
 	s.session.Close()
 }
 
-func (s *Server) GetClientConfig(w http.ResponseWriter, r *http.Request) {
+func (s *Server) GetClientConfigAll(w http.ResponseWriter, r *http.Request) {
 	session := s.session.Copy()
 	defer session.Close()
 
@@ -67,5 +67,35 @@ func (s *Server) GetClientConfig(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	responseByte, _ := json.Marshal(clientConfig)
+	w.Write(responseByte)
+}
+
+func (s *Server) GetClientConfigBasedOnAppNameAndBinaryVersionAndSite(w http.ResponseWriter, r *http.Request) {
+	applicationName := r.URL.Query().Get("app")
+	binaryVersion := r.URL.Query().Get("bin")
+	site := r.URL.Query().Get("site")
+
+	session := s.session.Copy()
+	defer session.Close()
+
+	var clientConfig []bson.M
+	collection := session.DB(initialConfig.GetMongoConfigurationDatabase()).C(initialConfig.GetMongoConfigurationDbCollectionName())
+	err := collection.Find(bson.M{
+		"applicationName": applicationName,
+		"binaryVersion":   binaryVersion,
+		"site":            site,
+	}).All(&clientConfig)
+	if err != nil {
+		panic(err)
+	}
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	responseByte, _ := json.Marshal(clientConfig)
+
+	if len(clientConfig) <= 0 {
+		w.WriteHeader(http.StatusBadRequest)
+		responseByte, _ = json.Marshal(ErrorJson{
+			Error: "Cannot find the config in data store",
+		})
+	}
 	w.Write(responseByte)
 }

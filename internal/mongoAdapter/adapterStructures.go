@@ -10,3 +10,7 @@ type ClientConfig struct {
 	BinaryVersion   string        `json:"BinaryVersion"`
 	ServingPort     int           `json:"ServingPort"`
 }
+
+type ErrorJson struct {
+	Error string `jsonL"ERROR"`
+}
