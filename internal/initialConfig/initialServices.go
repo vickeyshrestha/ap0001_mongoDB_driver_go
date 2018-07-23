@@ -1,6 +1,10 @@
 package initialConfig
 
-import "strings"
+import (
+	"strings"
+	"net/http"
+	"time"
+)
 
 func GetApplicationSite() string {
 	var appSite string
@@ -26,10 +30,12 @@ func GetMongoDBPort() string {
 	return mongoPort
 }
 
-func GetHttpConnectionTimeout() string {
-	var httpConnectionTimeout string
-	httpConnectionTimeout = strings.Join(configFromJsonFile.HTTPConnectionTimeout,"")
-	return httpConnectionTimeout
+func GetHttpClient() http.Client {
+	var httpConnectionTimeout = int32(configFromJsonFile.HTTPConnectionTimeout)
+	var client = http.Client{
+		Timeout: time.Duration(httpConnectionTimeout) * time.Second,
+	}
+	return client
 }
 
 
