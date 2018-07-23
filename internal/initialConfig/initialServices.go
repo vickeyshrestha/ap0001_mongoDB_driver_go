@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// ---- BEGIN part of config file ------------
 func GetApplicationSite() string {
 	var appSite string
 	appSite = strings.Join(configFromJsonFile.Site,"")
@@ -37,6 +38,18 @@ func GetHttpClient() http.Client {
 	}
 	return client
 }
+
+func GetMongoConfigurationDatabase() string {
+	var mongoConfigurationDatabase = strings.Join(configFromJsonFile.MongoConfigurationDatabase,"")
+	return mongoConfigurationDatabase
+}
+
+func GetMongoConfigurationDbCollectionName() string {
+	var mongoConfigurationDbCollectionName = strings.Join(configFromJsonFile.MongoConfigurationDbCollectionName,"")
+	return mongoConfigurationDbCollectionName
+}
+
+//-----------END part of config file ------------
 
 func GetAppStartupTime() time.Time {
 	return appStartUpTime

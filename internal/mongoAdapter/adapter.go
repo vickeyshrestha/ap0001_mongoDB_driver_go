@@ -60,7 +60,7 @@ func (s *Server) GetClientConfig(w http.ResponseWriter, r *http.Request) {
 
 	//clientConfig := []ClientConfig{}
 	var clientConfig []bson.M // Since we don't know the exact structure of JSON, we will use a map instead of struct
-	collection := session.DB("config").C("vic_application")
+	collection := session.DB(initialConfig.GetMongoConfigurationDatabase()).C(initialConfig.GetMongoConfigurationDbCollectionName())
 	err := collection.Find(bson.M{}).All(&clientConfig)
 	if err != nil {
 		panic(err)
