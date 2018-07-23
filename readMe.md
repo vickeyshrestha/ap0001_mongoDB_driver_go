@@ -13,9 +13,15 @@ A mongo DB must be running in one of the servers and the mongo must have a datab
 **3. Execute the following for building docker image and running image:**
 
     - go clean
+    
     - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ap0001-mongoDB-driver cmd/main.go
-    - docker build -t vickeyshrestha/ap0001-mongodriver-go:00.00.01 .
-    - docker run --restart=always -e mongoHostAndPort=192.168.202.131:27017 -p 8085:8085 -d vickeyshrestha/ap0001-mongodriver-go:00.00.01
+    
+    - docker build -t vickeyshrestha/ap0001-mongodriver-go:*<IMAGE_VERSION>* .
+    - EXAMPLE: docker build -t vickeyshrestha/ap0001-mongodriver-go:00.00.01 .
+    
+    - docker run --restart=always -e mongoHostAndPort=*<MONGODB_HOST>:<PORT>* -p *<PORT_TO_MAP>*:8085 -d vickeyshrestha/ap0001-mongodriver-go:*<IMAGE_VERSION>*
+    - EXAMPLE: docker run --restart=always -e mongoHostAndPort=192.168.202.131:27017 -p 8085:8085 -d vickeyshrestha/ap0001-mongodriver-go:00.00.01
+    
     - docker push vickeyshrestha/ap0001-mongodriver-go:00.00.01
 
 `**NOTE**`    
