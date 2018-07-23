@@ -1,4 +1,10 @@
-**1. Execute the following for building docker image and running image:**
+**1. Introduction**
+
+This application connects to mongoDb to fetch the KV configurations for the client.
+
+<br>
+
+**2. Execute the following for building docker image and running image:**
 
     - go clean
     - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ap0001-mongoDB-driver cmd/main.go
@@ -16,7 +22,7 @@ _I prefer Artifactory as a docker hub, but I don't know if its free :(_
 
 <br>
 
-**2. Application Endpoints**
+**3. Application Endpoints**
 
 Here the the endpoints for this application:
 
