@@ -4,7 +4,13 @@ This application connects to mongoDb to fetch the KV configurations for the clie
 
 <br>
 
-**2. Execute the following for building docker image and running image:**
+**2. Requirement**
+
+A mongo DB must be running in one of the servers and the mongo must have a database name "config" and a collection name "vic_application". Yup, that's mandatory for now. That's where all of the application config will be stored.
+
+<br>
+
+**3. Execute the following for building docker image and running image:**
 
     - go clean
     - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ap0001-mongoDB-driver cmd/main.go
@@ -22,7 +28,7 @@ _I prefer Artifactory as a docker hub, but I don't know if its free :(_
 
 <br>
 
-**3. Application Endpoints**
+**4. Application Endpoints**
 
 Here the the endpoints for this application:
 
