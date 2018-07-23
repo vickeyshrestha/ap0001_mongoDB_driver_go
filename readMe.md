@@ -16,7 +16,7 @@ _I prefer Artifactory as a docker hub, but I don't know if its free :(_
 
 <br>
 
-**1. Application Endpoints**
+**2. Application Endpoints**
 
 Here the the endpoints for this application:
 
