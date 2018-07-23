@@ -29,7 +29,7 @@ Here the the endpoints for this application:
 | EndPoint Syntax        | Example           | Detail  |
 | ------------- |:-------------:| -----:|
 | /health      | http://192.168.202.131:8085/health | Get the health status of this application |
-| /allconfigs      | http://192.168.202.131:8085/allconfigs      |   Gets whole data response from collection |
+| /getallconfigs      | http://192.168.202.131:8085/getallconfigs      |   Gets whole data response from collection |
 | /getconfig?app=<APPLICATION_NAME>&bin=<BINARY_VERSION>&site=<SITE_NAME> | http://localhost:8085/getconfig?app=testApplication&bin=0.0.2&site=dev      |    Returns the document based on mandatory parameters. The mandatory parameters are app, bin and site |
 
 
