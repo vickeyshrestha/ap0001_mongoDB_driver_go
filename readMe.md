@@ -1,6 +1,6 @@
 **1. Introduction**
 
-This application connects to mongoDb to fetch the KV configurations for the client.
+This application connects to mongoDb to fetch the KV configurations for the client. The client can request for configs using HTTP interface.
 
 <br>
 
