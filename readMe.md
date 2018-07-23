@@ -1,4 +1,4 @@
-**Execute the following for building docker image and running image:**
+**1. Execute the following for building docker image and running image:**
 
     - go clean
     - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ap0001-mongoDB-driver cmd/main.go
@@ -14,7 +14,9 @@ You can simply get this docker image from
 
 _I prefer Artifactory as a docker hub, but I don't know if its free :(_
 
-**Application Endpoints**
+<br>
+
+**1. Application Endpoints**
 
 Here the the endpoints for this application:
 
