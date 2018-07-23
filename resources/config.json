@@ -1,8 +1,6 @@
 {
   "site": ["dev"],
-  "binary_version": ["0.0.1"],
-  "mongo_db_endpoint": ["192.168.202.131"],
-  "mongo_db_port": ["27017"],
+  "binary_version": ["00.00.02"],
   "http_connection_timeout": 30,
   "mongoConfigurationDatabase":["config"],
   "mongoConfigurationDbCollectionName":["vic_application"]

@@ -42,7 +42,7 @@ type Server struct {
 }
 
 func NewServer() (*Server, error) {
-	var mongoDbURL = initialConfig.GetMongoDBEndpoint() + ":" + initialConfig.GetMongoDBPort()
+	var mongoDbURL = *initialConfig.GetMongoHostAndPort()
 	session, err := mgo.Dial(mongoDbURL)
 	if err != nil {
 		return nil, err

@@ -39,3 +39,15 @@ Here the the endpoints for this application:
 | /getconfig?app=<APPLICATION_NAME>&bin=<BINARY_VERSION>&site=<SITE_NAME> | http://localhost:8085/getconfig?app=testApplication&bin=0.0.2&site=dev      |    Returns the document based on mandatory parameters. The mandatory parameters are app, bin and site |
 
 
+**5. Running in non-containerized environment** 
+
+If you simply want to run this application in its non-containerized form, i.e. just through cmd/main.go, you have to setup the follwoing two environment variables:
+
+    - configFile
+        - Example -> configFile=C:/Projects-Golang/src/ap0001_mongoDB_driver_go/resources/config.json
+        - Description -> An env var pointing to the location of the config file. This is found inside the resources directory of the project.
+        
+    - mongoHostAndPort
+        - Example -> some_server:27017
+        - Description -> FQDN and the port where MongoDB is running
+ 

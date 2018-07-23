@@ -19,18 +19,6 @@ func GetApplicationBinary() string {
 	return appBinary
 }
 
-func GetMongoDBEndpoint() string {
-	var mongoEndpoint string
-	mongoEndpoint = strings.Join(configFromJsonFile.MongoDbEndpoint,"")
-	return mongoEndpoint
-}
-
-func GetMongoDBPort() string {
-	var mongoPort string
-	mongoPort = strings.Join(configFromJsonFile.MongoDbPort,"")
-	return mongoPort
-}
-
 func GetHttpClient() http.Client {
 	var httpConnectionTimeout = int32(configFromJsonFile.HTTPConnectionTimeout)
 	var client = http.Client{
