@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"log"
 	"ap0001_mongoDB_driver_go/internal/mongoAdapter"
+	"ap0001_mongoDB_driver_go/internal/generalUtilities"
+	"fmt"
 )
 
 func MainProcess() {
@@ -39,7 +41,11 @@ func MainProcess() {
 		},
 	}
 
-	log.Printf("Application started successfully. Serving port 8085")
+	ip, err := generalUtilities.ExternalIP()
+	if err != nil {
+		fmt.Println(err)
+	}
+	log.Printf("Application started successfully. Running in ip %v & serving port 8085", ip)
 
 	server.ListenAndServe()
 	if err!= nil {
