@@ -38,17 +38,19 @@ func (s *Server) InsertNewConfig(w http.ResponseWriter, r *http.Request) {
 	var clientConfig bson.M // Since we don't know the exact structure of JSON, we will use a map instead of struct
 	b, _ := ioutil.ReadAll(r.Body)
 	json.Unmarshal(b, &clientConfig)
-	_, okAppName := clientConfig["applicationName"]
-	_, okBinVer := clientConfig["binaryVersion"]
-	_, okSite := clientConfig["site"]
+	appName, okAppName := clientConfig["applicationName"]
+	binVer, okBinVer := clientConfig["binaryVersion"]
+	site, okSite := clientConfig["site"]
 	if !(okAppName && okBinVer && okSite) {
 		w.Write([]byte("Missing field. The fields applicationName, binaryVersion and site are mandatory"))
 	} else {
 		collection := session.DB(initialConfig.GetMongoConfigurationDatabase()).C(initialConfig.GetMongoConfigurationDbCollectionName())
 		if err := collection.Insert(clientConfig); err != nil {
 			panic(err)
+		} else {
+			w.Write([]byte("Successfully Inserted config"))
+			log.Printf("Successfully Inserted config : %v, %v & %v", appName, binVer, site)
 		}
-		w.Write([]byte("Successfully Inserted config"))
 	}
 }
 
@@ -89,15 +91,22 @@ func (s *Server) GetClientConfigBasedOnAppNameAndBinaryVersionAndSite(w http.Res
 		session := s.session.Copy()
 		defer session.Close()
 
-		var clientConfig []bson.M
+		var clientConfig bson.M
 		collection := session.DB(initialConfig.GetMongoConfigurationDatabase()).C(initialConfig.GetMongoConfigurationDbCollectionName())
+	//	err := collection.Find(bson.M{
+	//		"applicationName": applicationName,
+	//		"binaryVersion":   binaryVersion,
+	//		"site":            site,
+	//	}).All(&clientConfig)
+
 		err := collection.Find(bson.M{
 			"applicationName": applicationName,
 			"binaryVersion":   binaryVersion,
 			"site":            site,
-		}).All(&clientConfig)
+		}).One(&clientConfig)
+
 		if err != nil {
-			panic(err)
+			log.Printf("ERROR: %v",err)
 		}
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		responseByte, _ = json.Marshal(clientConfig)
