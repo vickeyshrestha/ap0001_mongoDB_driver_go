@@ -1,6 +1,6 @@
 {
   "site": ["dev"],
-  "binary_version": ["00.00.02"],
+  "binary_version": ["00.00.03"],
   "http_connection_timeout": 30,
   "mongoConfigurationDatabase":["config"],
   "mongoConfigurationDbCollectionName":["vic_application"]
