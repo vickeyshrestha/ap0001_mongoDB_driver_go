@@ -64,7 +64,21 @@ The endpoint to insert new record is `/insertnew`. It is a POST request and acce
              
      Note: The fields applicationName, binaryVersion and site are mandatory. Other fields are up to developers on how they want to add them.
 
-**6. Running in non-containerized environment** 
+<br>
+
+**6. Delete record(s))**
+
+To delete a record, simply use the endpoint `/delete`. It is a request of DELETE type. You will need to provide 3 parameters.
+    
+    Example:
+        Type -> DELETE
+        HTTP request -> http://localhost:8085/delete?app=testApplication&bin=0.0.2&site=dev
+        
+    Note: The parameters app, bin and site are mandatory that represents applicationName, binaryVersion and site respectively.
+
+<br>
+
+**7. Running in non-containerized environment** 
 
 If you simply want to run this application in its non-containerized form, i.e. just through cmd/main.go, you have to setup the follwoing two environment variables:
 
