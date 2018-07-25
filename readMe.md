@@ -63,6 +63,8 @@ The endpoint to insert new record is `/insertnew`. It is a POST request and acce
              }
              
      Note: The fields applicationName, binaryVersion and site are mandatory. Other fields are up to developers on how they want to add them.
+     
+     - You can use your favorite HTTP API Interacting tool. My favorite is Postman. 
 
 <br>
 
@@ -75,6 +77,8 @@ To delete a record, simply use the endpoint `/delete`. It is a request of DELETE
         HTTP request -> http://localhost:8085/delete?app=testApplication&bin=0.0.2&site=dev
         
     Note: The parameters app, bin and site are mandatory that represents applicationName, binaryVersion and site respectively.
+    
+    - You can use your favorite HTTP API Interacting tool. My favorite is Postman. 
 
 <br>
 
