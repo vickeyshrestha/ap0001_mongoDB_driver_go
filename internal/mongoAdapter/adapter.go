@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
+	"strconv"
 )
 
 type Server struct {
@@ -131,7 +132,7 @@ func (s *Server) DeleteRecordUsingID(w http.ResponseWriter, r *http.Request) {
 		collection := session.DB(initialConfig.GetMongoConfigurationDatabase()).C(initialConfig.GetMongoConfigurationDbCollectionName())
 
 		//err := collection.Remove(bson.M{"_id": id})
-		err := collection.Remove(bson.M{"applicationName": appName,
+		info, err := collection.RemoveAll(bson.M{"applicationName": appName,
 			"binaryVersion": binaryVersion,
 			"site": site,
 		})
@@ -140,9 +141,15 @@ func (s *Server) DeleteRecordUsingID(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte(msg))
 			log.Printf(msg)
 		} else {
-			msg:= "Record with param " + appName+", "+binaryVersion+" and "+site+ " removed"
-			w.Write([]byte(msg))
-			log.Printf(msg)
+			if info.Removed > 1 {
+				msg:= strconv.Itoa(info.Removed) + " record(s) with param " + appName+", "+binaryVersion+" and "+site+ " removed"
+				w.Write([]byte(msg))
+				log.Printf(msg)
+			} else {
+				msg:= "No record with param " + appName+", "+binaryVersion+" and "+site+ " was found"
+				w.Write([]byte(msg))
+				log.Printf(msg)
+			}
 		}
 	}
 	w.Write(responseByte)
