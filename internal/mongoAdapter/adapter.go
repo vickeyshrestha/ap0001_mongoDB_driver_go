@@ -112,7 +112,7 @@ func (s *Server) GetClientConfigBasedOnAppNameAndBinaryVersionAndSite(w http.Res
 }
 
 /*
-	Delete record using ID
+	Delete record using appName, binary version & site
  */
 func (s *Server) DeleteRecordUsingID(w http.ResponseWriter, r *http.Request) {
 	var responseByte []byte
