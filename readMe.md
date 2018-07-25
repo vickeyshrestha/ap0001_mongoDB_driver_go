@@ -22,6 +22,9 @@ A mongo DB must be running in one of the servers and the mongo must have a datab
     - docker run --restart=always -e mongoHostAndPort=<MONGODB_HOST>:<PORT> -p <PORT_TO_MAP>:8085 -d vickeyshrestha/ap0001-mongodriver-go:<IMAGE_VERSION>
     - EXAMPLE: docker run --restart=always -e HOSTNAME=vickey_ubuntu_1 --name=MONGODRIVER -e mongoHostAndPort=192.168.202.131:27017 -p 8085:8085 -d vickeyshrestha/ap0001-mongodriver-go:00.00.01
     
+    - Verify that your env is properly set by entering the container. You can enter using following command:
+        $ docker exec -it <CONTAINER_ID> /bin/bash
+    
     - docker push vickeyshrestha/ap0001-mongodriver-go:00.00.01
 
 `**NOTE**`    
