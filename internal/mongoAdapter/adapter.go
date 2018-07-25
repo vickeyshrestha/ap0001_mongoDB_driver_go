@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"encoding/json"
 	"io/ioutil"
+	"log"
 )
 
 type Server struct {
@@ -74,31 +75,75 @@ func (s *Server) GetClientConfigAll(w http.ResponseWriter, r *http.Request) {
 	Returns collection as JSON based of Application Name, Binary Version and Site
 */
 func (s *Server) GetClientConfigBasedOnAppNameAndBinaryVersionAndSite(w http.ResponseWriter, r *http.Request) {
+	var responseByte []byte
 	applicationName := r.URL.Query().Get("app")
 	binaryVersion := r.URL.Query().Get("bin")
 	site := r.URL.Query().Get("site")
-
-	session := s.session.Copy()
-	defer session.Close()
-
-	var clientConfig []bson.M
-	collection := session.DB(initialConfig.GetMongoConfigurationDatabase()).C(initialConfig.GetMongoConfigurationDbCollectionName())
-	err := collection.Find(bson.M{
-		"applicationName": applicationName,
-		"binaryVersion":   binaryVersion,
-		"site":            site,
-	}).All(&clientConfig)
-	if err != nil {
-		panic(err)
-	}
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	responseByte, _ := json.Marshal(clientConfig)
-
-	if len(clientConfig) <= 0 {
+	if applicationName == "" || binaryVersion == "" || site == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		responseByte, _ = json.Marshal(ErrorJson{
-			Error: "Cannot find the config in data store",
+			Error: "One or the more of the mandatory parameters are missing. Mandatory parameters - app, bin & site",
 		})
+	} else {
+		session := s.session.Copy()
+		defer session.Close()
+
+		var clientConfig []bson.M
+		collection := session.DB(initialConfig.GetMongoConfigurationDatabase()).C(initialConfig.GetMongoConfigurationDbCollectionName())
+		err := collection.Find(bson.M{
+			"applicationName": applicationName,
+			"binaryVersion":   binaryVersion,
+			"site":            site,
+		}).All(&clientConfig)
+		if err != nil {
+			panic(err)
+		}
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		responseByte, _ = json.Marshal(clientConfig)
+
+		if len(clientConfig) <= 0 {
+			w.WriteHeader(http.StatusBadRequest)
+			responseByte, _ = json.Marshal(ErrorJson{
+				Error: "Cannot find the config in data store",
+			})
+		}
+	}
+	w.Write(responseByte)
+}
+
+/*
+	Delete record using ID
+ */
+func (s *Server) DeleteRecordUsingID(w http.ResponseWriter, r *http.Request) {
+	var responseByte []byte
+	appName := r.URL.Query().Get("app")
+	binaryVersion := r.URL.Query().Get("bin")
+	site := r.URL.Query().Get("site")
+
+	if appName == "" || binaryVersion == "" || site == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		responseByte, _ = json.Marshal(ErrorJson{
+			Error: "One or the more of the mandatory parameters are missing. Mandatory parameters - app, bin & site",
+		})
+	} else {
+		session := s.session.Copy()
+		defer session.Close()
+		collection := session.DB(initialConfig.GetMongoConfigurationDatabase()).C(initialConfig.GetMongoConfigurationDbCollectionName())
+
+		//err := collection.Remove(bson.M{"_id": id})
+		err := collection.Remove(bson.M{"applicationName": appName,
+			"binaryVersion": binaryVersion,
+			"site": site,
+		})
+		if err != nil {
+			msg:= "Error while removing record with params " + appName+", "+binaryVersion+" and "+site+ " | Message: "+err.Error()
+			w.Write([]byte(msg))
+			log.Printf(msg)
+		} else {
+			msg:= "Record with param " + appName+", "+binaryVersion+" and "+site+ " removed"
+			w.Write([]byte(msg))
+			log.Printf(msg)
+		}
 	}
 	w.Write(responseByte)
 }
