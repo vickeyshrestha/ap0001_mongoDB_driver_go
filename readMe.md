@@ -104,10 +104,24 @@ If you simply want to run this application in its non-containerized form, i.e. j
 Remember to vendorize your dependencies as well:
 
 TO ADD:
+
 govendor init
+
 govendor add +external
 
+
 TO REMOVE ALL/ CLEAN VENDOR DIRECTORY:
+
 govendor remove +v
+
+<br>
+
+**9. To use behavior driven test (BDT)**
+
+Use the following godog command:
+
+Navigate to folder ap0001_mongo_engine\behaviorDrivenTest
+
+$godog testMongoDriver.feature
 
  
