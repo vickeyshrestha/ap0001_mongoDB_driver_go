@@ -1,6 +1,7 @@
-Feature: Test the application config operations
+Feature: Test the application config operations and health status
   As an end user of this application
   I should be able to insert, retrieve and delete the application configs from the mongo database
+  I should also be check every serving endpoints and that includes health
 
   Scenario Outline: Verify the health status of the application
     When I send <requestType> request using the <URL>
