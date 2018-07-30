@@ -10,7 +10,7 @@ import (
 func HealthCheckHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.WriteHeader(http.StatusOK)
 	writer.Header().Set("Content-Type", "application/json")
-	responseByte, _ := json.Marshal(healthEndpoint{
+	responseByte, _ := json.Marshal(HealthEndpoint{
 		Application:  "MongoDB Driver",
 		HealthStatus: "200 OK",
 		Message:      "Up and running for " + time.Since(initialConfig.GetAppStartupTime()).String(),

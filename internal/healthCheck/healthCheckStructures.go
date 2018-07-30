@@ -1,6 +1,6 @@
 package healthCheck
 
-type healthEndpoint struct {
+type HealthEndpoint struct {
 	Application string `json:"Application"`
 	HealthStatus string `json:"Health Status"`
 	Message     string `json:"Message"`
