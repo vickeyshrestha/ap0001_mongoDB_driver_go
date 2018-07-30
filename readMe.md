@@ -14,18 +14,18 @@ A mongo DB must be running in one of the servers and the mongo must have a datab
 
     - go clean
     
-    - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ap0001-mongoDB-driver cmd/main.go
+    - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ap0001_mongo_engine cmd/main.go
     
-    - docker build -t vickeyshrestha/ap0001-mongodriver-go:<IMAGE_VERSION> .
-    - EXAMPLE: docker build -t vickeyshrestha/ap0001-mongodriver-go:00.00.01 .
+    - docker build -t vickeyshrestha/ap0001_mongo_engine:<IMAGE_VERSION> .
+    - EXAMPLE: docker build -t vickeyshrestha/ap0001_mongo_engine:00.00.01 .
     
-    - docker run --restart=always -e mongoHostAndPort=<MONGODB_HOST>:<PORT> -p <PORT_TO_MAP>:8085 -d vickeyshrestha/ap0001-mongodriver-go:<IMAGE_VERSION>
-    - EXAMPLE: docker run --restart=always -e HOSTNAME=vickey_ubuntu_1 --name=MONGODRIVER -e mongoHostAndPort=192.168.202.131:27017 -p 8085:8085 -d vickeyshrestha/ap0001-mongodriver-go:00.00.01
+    - docker run --restart=always -e mongoHostAndPort=<MONGODB_HOST>:<PORT> -p <PORT_TO_MAP>:8085 -d vickeyshrestha/ap0001_mongo_engine:<IMAGE_VERSION>
+    - EXAMPLE: docker run --restart=always -e HOSTNAME=vickey_ubuntu_1 --name=MONGODRIVER -e mongoHostAndPort=192.168.202.131:27017 -p 8085:8085 -d vickeyshrestha/ap0001_mongo_engine:00.00.01
     
     - Verify that your env is properly set by entering the container. You can enter using following command:
         $ docker exec -it <CONTAINER_ID> /bin/bash
     
-    - docker push vickeyshrestha/ap0001-mongodriver-go:00.00.01
+    - docker push vickeyshrestha/ap0001_mongo_engine:00.00.01
 
 `**NOTE**`    
 
@@ -90,7 +90,7 @@ To delete a record, simply use the endpoint `/delete`. It is a request of DELETE
 If you simply want to run this application in its non-containerized form, i.e. just through cmd/main.go, you have to setup the follwoing two environment variables:
 
     - configFile
-        - Example -> configFile=C:/Projects-Golang/src/ap0001_mongoDB_driver_go/resources/config.json
+        - Example -> configFile=C:/Projects-Golang/src/ap0001_mongo_engine/resources/config.json
         - Description -> An env var pointing to the location of the config file. This is found inside the resources directory of the project.
         
     - mongoHostAndPort

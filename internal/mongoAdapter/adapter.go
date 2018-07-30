@@ -3,7 +3,7 @@ package mongoAdapter
 import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	"ap0001_mongoDB_driver_go/internal/initialConfig"
+	"ap0001_mongo_engine/internal/initialConfig"
 	"net/http"
 	"encoding/json"
 	"io/ioutil"

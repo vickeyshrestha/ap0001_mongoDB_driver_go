@@ -3,7 +3,7 @@ package healthCheck
 import (
 	"net/http"
 	"encoding/json"
-	"ap0001_mongoDB_driver_go/internal/initialConfig"
+	"ap0001_mongo_engine/internal/initialConfig"
 	"time"
 )
 

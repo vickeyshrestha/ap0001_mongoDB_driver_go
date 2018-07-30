@@ -2,13 +2,13 @@ package applicationDriver
 
 import (
 	"github.com/gorilla/mux"
-	"ap0001_mongoDB_driver_go/internal/healthCheck"
+	"ap0001_mongo_engine/internal/healthCheck"
 	"gopkg.in/tylerb/graceful.v1"
 	"time"
 	"net/http"
 	"log"
-	"ap0001_mongoDB_driver_go/internal/mongoAdapter"
-	"ap0001_mongoDB_driver_go/internal/generalUtilities"
+	"ap0001_mongo_engine/internal/mongoAdapter"
+	"ap0001_mongo_engine/internal/generalUtilities"
 	"fmt"
 )
 

@@ -4,7 +4,7 @@ import (
 	"testing"
 	"net/http"
 	"net/http/httptest"
-	"ap0001_mongoDB_driver_go/internal/healthCheck"
+	"ap0001_mongo_engine/internal/healthCheck"
 )
 
 func TestHealthCheckHandler(t *testing.T) {

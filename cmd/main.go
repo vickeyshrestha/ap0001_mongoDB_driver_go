@@ -1,8 +1,8 @@
 package main
 
 import (
-	"ap0001_mongoDB_driver_go/internal/initialConfig"
-	"ap0001_mongoDB_driver_go/internal/applicationDriver"
+	"ap0001_mongo_engine/internal/initialConfig"
+	"ap0001_mongo_engine/internal/applicationDriver"
 )
 
 func main() {

@@ -1,9 +1,12 @@
-Feature: eat godogs
-  In order to be happy
-  As a hungry gopher
-  I need to be able to eat godogs
+Feature: Test the application config operations
+  As an end user of this application
+  I should be able to insert, retrieve and delete the application configs from the mongo database
 
-  Scenario: Eat 5 out of 12
-    Given there are 12 godogs
-    When I eat 5
-    Then there should be 7 remaining
+  Scenario Outline: Verify the health status of the application
+    When I send <requestType> request using the <URL>
+    Then I should be getting <httpStatusCode> as expected
+    And a JSON response with <applicationName> and <healthStatus>
+
+    Examples:
+      | requestType | URL       | httpStatusCode | applicationName  | healthStatus |
+      | "GET"       | "/health" | 200            | "MongoDB Driver" | "200 OK"     |

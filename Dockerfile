@@ -10,19 +10,19 @@ RUN apt-get update && apt-get install -y ca-certificates && apt-get install -y a
 
 RUN update-ca-certificates
 
-ENV configFile=/go/src/ap0001_mongoDB_driver_go/resources/config.json
+ENV configFile=/go/src/ap0001_mongo_engine/resources/config.json
 
-RUN mkdir -p /go/src/ap0001_mongoDB_driver_go/resources
+RUN mkdir -p /go/src/ap0001_mongo_engine/resources
 
-ADD resources/config.json /go/src/ap0001_mongoDB_driver_go/resources
+ADD resources/config.json /go/src/ap0001_mongo_engine/resources
 
-ADD ap0001-mongoDB-driver /
+ADD ap0001_mongo_engine /
 
-#RUN useradd -c 'Vickey Shrestha' -m -l -d /apps/mongoDbDriver -u 1000 -s /bin/bash admin
+#RUN useradd -c 'Vickey Shrestha' -m -l -d /apps/ap0001_mongo_engine -u 1000 -s /bin/bash admin
 #RUN chown -R admin /go
 #RUN chown -R admin /apps
 #USER 1000
 
-ENTRYPOINT ["/ap0001-mongoDB-driver"]
+ENTRYPOINT ["/ap0001_mongo_engine"]
 
 EXPOSE 8085
