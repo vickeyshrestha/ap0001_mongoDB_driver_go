@@ -24,7 +24,10 @@ func MainProcess() {
 	} else {
 		defer mongoServer.Close()
 
+		// example: http://localhost:8085/health
 		request.HandleFunc(controllers.HEALTH_CHECK, healthCheck.HealthCheckHandler).Methods("GET")
+
+		// example: http://localhost:8085/getallconfigs
 		request.HandleFunc(controllers.GET_ALL_CONFIGS_FROM_DATABASE, mongoServer.GetClientConfigAll).Methods("GET")
 
 		// example http://localhost:8085/getconfig?app=testApplication&bin=0.0.2&site=dev
