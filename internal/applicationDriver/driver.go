@@ -11,6 +11,7 @@ import (
 	"ap0001_mongo_engine/internal/generalUtilities"
 	"fmt"
 	"os"
+	"ap0001_mongo_engine/internal/controllers"
 )
 
 func MainProcess() {
@@ -23,22 +24,22 @@ func MainProcess() {
 	} else {
 		defer mongoServer.Close()
 
-		request.HandleFunc("/health", healthCheck.HealthCheckHandler).Methods("GET")
-		request.HandleFunc("/getallconfigs", mongoServer.GetClientConfigAll).Methods("GET")
+		request.HandleFunc(controllers.HEALTH_CHECK, healthCheck.HealthCheckHandler).Methods("GET")
+		request.HandleFunc(controllers.GET_ALL_CONFIGS_FROM_DATABASE, mongoServer.GetClientConfigAll).Methods("GET")
 
 		// example http://localhost:8085/getconfig?app=testApplication&bin=0.0.2&site=dev
-		request.HandleFunc("/getconfig", mongoServer.GetClientConfigBasedOnAppNameAndBinaryVersionAndSite).Methods("GET")
+		request.HandleFunc(controllers.GET_SINGLE_CONFIG, mongoServer.GetClientConfigBasedOnAppNameAndBinaryVersionAndSite).Methods("GET")
 
 		// example http://localhost:8085/insertnew
-		request.HandleFunc("/insertnew", mongoServer.InsertNewConfig).Methods("POST")
+		request.HandleFunc(controllers.INSERT_CONFIG, mongoServer.InsertNewConfig).Methods("POST")
 
 		// example http://localhost:8085/delete?app=testApplication&bin=0.0.2&site=dev
-		request.HandleFunc("/delete", mongoServer.DeleteRecordUsingID).Methods("DELETE")
+		request.HandleFunc(controllers.DELETE_CONFIG, mongoServer.DeleteRecordUsingID).Methods("DELETE")
 
-		server:= &graceful.Server{
+		server := &graceful.Server{
 			Timeout: 30 * time.Second,
-			Server : &http.Server{
-				Addr: ":8085",
+			Server: &http.Server{
+				Addr:    ":8085",
 				Handler: request,
 			},
 		}
@@ -50,7 +51,7 @@ func MainProcess() {
 		log.Printf("Application started successfully. Running in ip %v & serving port 8085", ip)
 
 		server.ListenAndServe()
-		if err!= nil {
+		if err != nil {
 			log.Printf("Server failed to start | %v", err)
 		}
 
