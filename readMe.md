@@ -96,4 +96,18 @@ If you simply want to run this application in its non-containerized form, i.e. j
     - mongoHostAndPort
         - Example -> some_server:27017
         - Description -> FQDN and the port where MongoDB is running
+        
+<br>
+
+**8. Vendorizing dependencies**
+
+Remember to vendorize your dependencies as well:
+
+TO ADD:
+govendor init
+govendor add +external
+
+TO REMOVE ALL/ CLEAN VENDOR DIRECTORY:
+govendor remove +v
+
  
