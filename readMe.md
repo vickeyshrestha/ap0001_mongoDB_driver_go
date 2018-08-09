@@ -22,6 +22,8 @@ A mongoDB must be running in one of the servers and the mongo must have a databa
     - docker run --restart=always -e mongoHostAndPort=<MONGODB_HOST>:<PORT> -p <PORT_TO_MAP>:8085 -d vickeyshrestha/ap0001_mongo_engine:<IMAGE_VERSION>
     - EXAMPLE: docker run --restart=always -e HOSTNAME=vickey_ubuntu_1 --name=MONGODRIVER -e mongoHostAndPort=192.168.202.131:27017 -p 8085:8085 -d vickeyshrestha/ap0001_mongo_engine:00.00.01
     
+        Note: To run the container in SSL secured mode, refer to section 10 of this readme file.
+    
     - Verify that your env is properly set by entering the container. You can enter using following command:
         $ docker exec -it <CONTAINER_ID> /bin/bash
     
