@@ -16,7 +16,7 @@ import (
 	"ap0001_mongo_engine/internal/initialConfig"
 )
 
-func MainProcess() {
+func Start() {
 	request := mux.NewRouter().StrictSlash(false)
 
 	mongoServer, err := mongoAdapter.NewServer()

@@ -7,6 +7,5 @@ import (
 
 func main() {
 	initialConfig.LoadConfiguration()
-	applicationDriver.MainProcess()
-	//mongoAdapter.MongoAdapterTest() // Later will be placed by Main Process
+	applicationDriver.Start()
 }
