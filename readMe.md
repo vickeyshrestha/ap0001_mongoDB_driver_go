@@ -126,4 +126,25 @@ Navigate to folder ap0001_mongo_engine\behaviorDrivenTest and Use the following 
 
 $ godog testMongoDriver.feature
 
- 
+<br>
+
+**10. Running application in SSL secured mode**
+
+To run this application serving a https secured connection, you need to pass the following 3 additional environment variables:
+
+    1. devmode  (Set it to false. This will enable the https server)
+    2. sslKey   (Path to the ssl private Key)
+    3. sslCert  (Path to the ssl private certificate)
+    
+The certificates and keys are confidential files and will not be commited to github. In fact, each server requires their own certificate and key. Each company might have their own csr signing tool. But for development purpose, you can use the free certificate signing tool at 
+    
+    http://getacert.com/signacert.html
+
+You can generate your own csr file and key using free tools like Openssl. Then use that csr in the above link to generate a free 60 days signed cert. Donate to the site to get for 10 years validation.
+
+When running a docker image, I would recommend the newly generated cert to place somewhere locally in the server. Then you can volume map the docker conatiner's location to the local host location using -v option. For example, your certs and keys are located under /server/certificate folders. You can do something like:
+
+    docker run --restart=always -e HOSTNAME=vickey_ubuntu_1 --name=MONGODRIVER -v /server/certificate:/server/certificate -e devmode=false -e sslCert=/server/certificate/server.cer -e sslKey=/server/certificate/server.key -e mongoHostAndPort=192.168.202.131:27017 -p 8085:8085 -d vickeyshrestha/ap0001_mongo_engine:00.00.01
+
+
+**Remember** that you need to install the public certificate to your OS cert repo or your browser repository also. When you generate the certificate using the link above, it should provide the public certificate as well.  

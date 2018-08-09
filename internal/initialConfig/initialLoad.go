@@ -17,6 +17,9 @@ var(
 	// eg. configFile=C:\Projects-Golang\src\ap0001_mongoDB_driver_go\resources\config.json
 	configJsonFile, _ = os.Open(os.Getenv("configFile"))
 	mongoDbHostAndPort = flag.String("mongoHostAndPort", os.Getenv("mongoHostAndPort"),"Path for mongo db endpoint")
+	sslKey = flag.String("sslKey", os.Getenv("sslKey"),"Path for sslKey")
+	sslCert = flag.String("sslCert", os.Getenv("sslCert"),"Path for sslCert")
+	devMode = flag.String("devmode", os.Getenv("devmode"),"Check for dev mode")
 	configFromJsonFile = configFileStruct{}
 )
 

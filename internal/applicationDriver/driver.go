@@ -12,6 +12,8 @@ import (
 	"fmt"
 	"os"
 	"ap0001_mongo_engine/internal/controllers"
+	"strings"
+	"ap0001_mongo_engine/internal/initialConfig"
 )
 
 func MainProcess() {
@@ -51,13 +53,18 @@ func MainProcess() {
 		if err != nil {
 			fmt.Println(err)
 		}
+
 		log.Printf("Application started successfully. Running in ip %v & serving port 8085", ip)
-
-		server.ListenAndServe()
-		if err != nil {
-			log.Printf("Server failed to start | %v", err)
+		if strings.EqualFold(*initialConfig.GetSSLMode(),"false"){
+			log.Printf("Dev mode set to false. Starting application in ssl secured mode")
+			errStartingServer := server.ListenAndServeTLS(*initialConfig.GetSslCert(), *initialConfig.GetSslKey())
+			if errStartingServer != nil {
+				log.Printf("Failed to start server | Error: %v", errStartingServer)
+			}
+		} else {
+			log.Printf("Starting application in ssl non-secured mode")
+			server.ListenAndServe()
 		}
-
 		log.Printf("Application stopped gracefully")
 	}
 

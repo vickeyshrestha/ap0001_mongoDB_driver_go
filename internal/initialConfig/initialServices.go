@@ -47,3 +47,15 @@ func GetMongoHostAndPort() *string{
 	return mongoDbHostAndPort
 }
 
+func GetSslKey() *string{
+	return sslKey
+}
+
+func GetSslCert() *string {
+	return sslCert
+}
+
+func GetSSLMode() *string {
+	return devMode
+}
+
