@@ -4,9 +4,9 @@ This application connects to mongoDb to fetch the KV configurations for the clie
 
 <br>
 
-**2. Requirement**
+**2. Requirement / prerequisite**
 
-A mongo DB must be running in one of the servers and the mongo must have a database name "config" and a collection name "vic_application". Yup, that's mandatory for now. That's where all of the application config will be stored.
+A mongoDB must be running in one of the servers and the mongo must have a database name "config" and a collection name "vic_application". Yup, that's mandatory for now. That's where all of the application config will be stored. The FQDN or IP Address of the server and the port number where MongoDB is serving must be passed as environment variable. See Section 3 and section 7 of this document for detail and example.
 
 <br>
 
