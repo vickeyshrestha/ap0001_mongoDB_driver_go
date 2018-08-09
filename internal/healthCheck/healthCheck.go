@@ -11,7 +11,8 @@ func HealthCheckHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.WriteHeader(http.StatusOK)
 	writer.Header().Set("Content-Type", "application/json")
 	responseByte, _ := json.Marshal(HealthEndpoint{
-		Application:  "MongoDB Driver",
+		Application:  "Mongo Engine",
+		Version:      initialConfig.GetApplicationBinary(),
 		HealthStatus: "200 OK",
 		Message:      "Up and running for " + time.Since(initialConfig.GetAppStartupTime()).String(),
 	})

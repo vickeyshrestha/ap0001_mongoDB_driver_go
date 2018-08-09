@@ -35,8 +35,6 @@ You can simply get this docker image from
 
     https://hub.docker.com/u/vickeyshrestha/
 
-_I prefer Artifactory as a docker hub, but I don't know if its free :(_
-
 <br>
 
 **4. Application Endpoints**
