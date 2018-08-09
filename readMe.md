@@ -101,6 +101,8 @@ If you simply want to run this application in its non-containerized form, i.e. j
 
 **8. Vendorizing dependencies**
 
+_`prerequisite: Please install govendor tool available at https://github.com/kardianos/govendor`_
+
 Remember to vendorize your dependencies as well:
 
 TO ADD:
@@ -118,10 +120,10 @@ govendor remove +v
 
 **9. To use behavior driven test (BDT)**
 
-Use the following godog command:
+_`prerequisite: Please install godog available at https://github.com/DATA-DOG/godog`_
 
-Navigate to folder ap0001_mongo_engine\behaviorDrivenTest
+Navigate to folder ap0001_mongo_engine\behaviorDrivenTest and Use the following godog command:
 
-$godog testMongoDriver.feature
+$ godog testMongoDriver.feature
 
  
