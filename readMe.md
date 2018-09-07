@@ -20,7 +20,7 @@ A mongoDB must be running in one of the servers and the mongo must have a databa
     - EXAMPLE: docker build -t vickeyshrestha/ap0001_mongo_engine:00.00.01 .
     
     - docker run --restart=always -e mongoHostAndPort=<MONGODB_HOST>:<PORT> -p <PORT_TO_MAP>:8085 -d vickeyshrestha/ap0001_mongo_engine:<IMAGE_VERSION>
-    - EXAMPLE: docker run --restart=always -e HOSTNAME=vickey_ubuntu_1 --name=MONGODRIVER -e mongoHostAndPort=192.168.202.131:27017 -p 8085:8085 -d vickeyshrestha/ap0001_mongo_engine:00.00.01
+    - EXAMPLE: docker run --restart=always -e HOSTNAME=vickey_ubuntu_1 --name=MONGODRIVER -e mongoHostAndPort=192.168.xxx.xxx:27017 -p 8085:8085 -d vickeyshrestha/ap0001_mongo_engine:00.00.01
     
         Note: To run the container in SSL secured mode, refer to section 10 of this readme file.
     
@@ -43,8 +43,8 @@ Here the the endpoints for this application:
 
 | EndPoint Syntax        | Example           | Detail  |
 | ------------- |:-------------:| -----:|
-| /health      | http://192.168.202.131:8085/health | Get the health status of this application |
-| /getallconfigs      | http://192.168.202.131:8085/getallconfigs      |   Gets whole data response from collection |
+| /health      | http://192.168.xxx.xxx:8085/health | Get the health status of this application |
+| /getallconfigs      | http://192.168.xxx.xxx:8085/getallconfigs      |   Gets whole data response from collection |
 | /getconfig?app=<APPLICATION_NAME>&bin=<BINARY_VERSION>&site=<SITE_NAME> | http://localhost:8085/getconfig?app=testApplication&bin=0.0.2&site=dev      |    Returns the document based on mandatory parameters. The mandatory parameters are app, bin and site |
 
 <br>
@@ -144,7 +144,7 @@ You can generate your own csr file and key using free tools like Openssl. Then u
 
 When running a docker image, I would recommend the newly generated cert to place somewhere locally in the server. Then you can volume map the docker conatiner's location to the local host location using -v option. For example, your certs and keys are located under /server/certificate folders. You can do something like:
 
-    docker run --restart=always -e HOSTNAME=vickey_ubuntu_1 --name=MONGODRIVER -v /server/certificate:/server/certificate -e devmode=false -e sslCert=/server/certificate/server.cer -e sslKey=/server/certificate/server.key -e mongoHostAndPort=192.168.202.131:27017 -p 8085:8085 -d vickeyshrestha/ap0001_mongo_engine:00.00.01
+    docker run --restart=always -e HOSTNAME=vickey_ubuntu_1 --name=MONGODRIVER -v /server/certificate:/server/certificate -e devmode=false -e sslCert=/server/certificate/server.cer -e sslKey=/server/certificate/server.key -e mongoHostAndPort=192.168.xxx.xxx:27017 -p 8085:8085 -d vickeyshrestha/ap0001_mongo_engine:00.00.01
 
 
 **Remember** that you need to install the public certificate to your OS cert repo or your browser repository also. When you generate the certificate using the link above, it should provide the public certificate as well.  
