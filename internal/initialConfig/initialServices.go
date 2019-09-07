@@ -1,61 +1,55 @@
 package initialConfig
 
 import (
-	"strings"
 	"net/http"
+	"strings"
 	"time"
 )
 
 // ---- BEGIN part of config file ------------
-func GetApplicationSite() string {
-	var appSite string
-	appSite = strings.Join(configFromJsonFile.Site,"")
-	return appSite
+
+func (c configFileStruct) GetApplicationSite() string {
+	return strings.Join(c.Site, "")
 }
 
-func GetApplicationBinary() string {
-	var appBinary string
-	appBinary = strings.Join(configFromJsonFile.BinaryVersion,"")
-	return appBinary
+func (c configFileStruct) GetApplicationBinary() string {
+	return strings.Join(c.BinaryVersion, "")
 }
 
-func GetHttpClient() http.Client {
-	var httpConnectionTimeout = int32(configFromJsonFile.HTTPConnectionTimeout)
+func (c configFileStruct) GetHttpClient() http.Client {
+	var httpConnectionTimeout = int32(c.HTTPConnectionTimeout)
 	var client = http.Client{
 		Timeout: time.Duration(httpConnectionTimeout) * time.Second,
 	}
 	return client
 }
 
-func GetMongoConfigurationDatabase() string {
-	var mongoConfigurationDatabase = strings.Join(configFromJsonFile.MongoConfigurationDatabase,"")
-	return mongoConfigurationDatabase
+func (c configFileStruct) GetMongoConfigurationDatabase() string {
+	return strings.Join(c.MongoConfigurationDatabase, "")
 }
 
-func GetMongoConfigurationDbCollectionName() string {
-	var mongoConfigurationDbCollectionName = strings.Join(configFromJsonFile.MongoConfigurationDbCollectionName,"")
-	return mongoConfigurationDbCollectionName
+func (c configFileStruct) GetMongoConfigurationDbCollectionName() string {
+	return strings.Join(c.MongoConfigurationDbCollectionName, "")
 }
 
 //-----------END part of config file ------------
 
-func GetAppStartupTime() time.Time {
+func (c configFileStruct) GetAppStartupTime() time.Time {
 	return appStartUpTime
 }
 
-func GetMongoHostAndPort() *string{
+func (c configFileStruct) GetMongoHostAndPort() *string {
 	return mongoDbHostAndPort
 }
 
-func GetSslKey() *string{
+func (c configFileStruct) GetSslKey() *string {
 	return sslKey
 }
 
-func GetSslCert() *string {
+func (c configFileStruct) GetSslCert() *string {
 	return sslCert
 }
 
-func GetSSLMode() *string {
+func (c configFileStruct) GetSSLMode() *string {
 	return devMode
 }
-

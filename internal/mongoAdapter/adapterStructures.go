@@ -12,5 +12,5 @@ type ClientConfig struct {
 }
 
 type ErrorJson struct {
-	Error string `jsonL"ERROR"`
+	Error string `json:"ERROR"`
 }

@@ -1,20 +1,28 @@
 package healthCheck
 
 import (
-	"net/http"
+	"ap0001_mongo_engine"
 	"encoding/json"
-	"ap0001_mongo_engine/internal/initialConfig"
+	"net/http"
 	"time"
 )
 
-func HealthCheckHandler(writer http.ResponseWriter, request *http.Request) {
+type Service struct {
+	config ap0001_mongo_engine.InitialConfig
+}
+
+func NewHealthService(config ap0001_mongo_engine.InitialConfig) (*Service, error) {
+	return &Service{config: config}, nil
+}
+
+func (s *Service) HealthCheckHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.WriteHeader(http.StatusOK)
 	writer.Header().Set("Content-Type", "application/json")
 	responseByte, _ := json.Marshal(HealthEndpoint{
 		Application:  "Mongo Engine",
-		Version:      initialConfig.GetApplicationBinary(),
+		Version:      s.config.GetApplicationBinary(),
 		HealthStatus: "200 OK",
-		Message:      "Up and running for " + time.Since(initialConfig.GetAppStartupTime()).String(),
+		Message:      "Up and running for " + time.Since(s.config.GetAppStartupTime()).String(),
 	})
-	writer.Write(responseByte)
+	_, _ = writer.Write(responseByte)
 }

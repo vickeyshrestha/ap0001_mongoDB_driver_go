@@ -1,33 +1,37 @@
 package applicationDriver
 
 import (
-	"github.com/gorilla/mux"
-	"ap0001_mongo_engine/internal/healthCheck"
-	"gopkg.in/tylerb/graceful.v1"
-	"time"
-	"net/http"
-	"log"
-	"ap0001_mongo_engine/internal/mongoAdapter"
-	"ap0001_mongo_engine/internal/generalUtilities"
-	"fmt"
-	"os"
+	"ap0001_mongo_engine"
 	"ap0001_mongo_engine/internal/controllers"
+	"ap0001_mongo_engine/internal/generalUtilities"
+	"ap0001_mongo_engine/internal/healthCheck"
+	"ap0001_mongo_engine/internal/mongoAdapter"
+	"fmt"
+	"github.com/gorilla/mux"
+	"gopkg.in/tylerb/graceful.v1"
+	"log"
+	"net/http"
+	"os"
 	"strings"
-	"ap0001_mongo_engine/internal/initialConfig"
+	"time"
 )
 
-func Start() {
+func Start(config ap0001_mongo_engine.InitialConfig) {
 	request := mux.NewRouter().StrictSlash(false)
 
-	mongoServer, err := mongoAdapter.NewServer()
+	mongoServer, err := mongoAdapter.NewServer(config)
 	if err != nil {
 		log.Printf("Cannot connecto to MongoDB. ERROR: %v", err)
 		os.Exit(1)
 	} else {
 		defer mongoServer.Close()
 
+		health, err := healthCheck.NewHealthService(config)
+		if err != nil {
+			panic(err)
+		}
 		// example: http://localhost:8085/health
-		request.HandleFunc(controllers.HEALTH_CHECK, healthCheck.HealthCheckHandler).Methods("GET")
+		request.HandleFunc(controllers.HEALTH_CHECK, health.HealthCheckHandler).Methods("GET")
 
 		// example: http://localhost:8085/getallconfigs
 		request.HandleFunc(controllers.GET_ALL_CONFIGS_FROM_DATABASE, mongoServer.GetClientConfigAll).Methods("GET")
@@ -55,15 +59,18 @@ func Start() {
 		}
 
 		log.Printf("Application started successfully. Running in ip %v & serving port 8085", ip)
-		if strings.EqualFold(*initialConfig.GetSSLMode(),"false"){
+		if strings.EqualFold(*config.GetSSLMode(), "false") {
 			log.Printf("Dev mode set to false. Starting application in ssl secured mode")
-			errStartingServer := server.ListenAndServeTLS(*initialConfig.GetSslCert(), *initialConfig.GetSslKey())
+			errStartingServer := server.ListenAndServeTLS(*config.GetSslCert(), *config.GetSslKey())
 			if errStartingServer != nil {
 				log.Printf("Failed to start server | Error: %v", errStartingServer)
 			}
 		} else {
 			log.Printf("Starting application in ssl non-secured mode")
-			server.ListenAndServe()
+			err = server.ListenAndServe()
+			if err != nil {
+				panic(err)
+			}
 		}
 		log.Printf("Application stopped gracefully")
 	}

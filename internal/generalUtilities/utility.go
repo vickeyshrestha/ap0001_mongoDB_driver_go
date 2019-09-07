@@ -1,8 +1,8 @@
 package generalUtilities
 
 import (
-	"net"
 	"errors"
+	"net"
 )
 
 func ExternalIP() (string, error) {
@@ -39,5 +39,5 @@ func ExternalIP() (string, error) {
 			return ip.String(), nil
 		}
 	}
-	return "", errors.New("are you connected to the network?")
+	return "", errors.New("network connection failed")
 }
