@@ -10,6 +10,10 @@ A mongoDB must be running in one of the servers and the mongo must have a databa
 
 <br>
 
+For required external dependencies, check **vendor** directory.
+
+<br>
+
 **3. Execute the following for building docker image and running image:**
 
     - go clean
@@ -118,13 +122,25 @@ govendor remove +v
 
 <br>
 
-**9. To use behavior driven test (BDT)**
+**9. To use behavior driven test (BDT) and running Unit test**
 
 _`prerequisite: Please install godog available at https://github.com/DATA-DOG/godog`_
 
 Navigate to folder ap0001_mongo_engine\behaviorDrivenTest and Use the following godog command:
 
 $ godog testMongoDriver.feature
+
+<br>
+
+I have tried to use the concept of Dependency Injection using interfaces. Unit tests in this application uses a tool called Mockery to mock up the interface. Download it using 
+
+_`go get github.com/vektra/mockery/.../`_
+
+<br>
+
+Now in future, to auto create the mock of the interface, navigate to interface directory and use the following command to create a mock of that interface:
+
+_`mockery -name <INTERFACE_NAME>`_
 
 <br>
 
