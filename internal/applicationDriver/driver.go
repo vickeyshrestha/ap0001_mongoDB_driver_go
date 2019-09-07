@@ -2,7 +2,6 @@ package applicationDriver
 
 import (
 	"ap0001_mongo_engine"
-	"ap0001_mongo_engine/internal/controllers"
 	"ap0001_mongo_engine/internal/generalUtilities"
 	"ap0001_mongo_engine/internal/healthCheck"
 	"ap0001_mongo_engine/internal/mongoAdapter"
@@ -26,24 +25,24 @@ func Start(config ap0001_mongo_engine.InitialConfig) {
 	} else {
 		defer mongoServer.Close()
 
-		health, err := healthCheck.NewHealthService(config)
+		healthServer, err := healthCheck.NewHealthService(config)
 		if err != nil {
 			panic(err)
 		}
 		// example: http://localhost:8085/health
-		request.HandleFunc(controllers.HEALTH_CHECK, health.HealthCheckHandler).Methods("GET")
+		request.HandleFunc(ap0001_mongo_engine.HealthCheck, healthServer.HealthCheckHandler).Methods("GET")
 
 		// example: http://localhost:8085/getallconfigs
-		request.HandleFunc(controllers.GET_ALL_CONFIGS_FROM_DATABASE, mongoServer.GetClientConfigAll).Methods("GET")
+		request.HandleFunc(ap0001_mongo_engine.GetAllConfigsFromDatabase, mongoServer.GetClientConfigAll).Methods("GET")
 
 		// example http://localhost:8085/getconfig?app=testApplication&bin=0.0.2&site=dev
-		request.HandleFunc(controllers.GET_SINGLE_CONFIG, mongoServer.GetClientConfigBasedOnAppNameAndBinaryVersionAndSite).Methods("GET")
+		request.HandleFunc(ap0001_mongo_engine.GetSingleConfig, mongoServer.GetClientConfigBasedOnAppNameAndBinaryVersionAndSite).Methods("GET")
 
 		// example http://localhost:8085/insertnew
-		request.HandleFunc(controllers.INSERT_CONFIG, mongoServer.InsertNewConfig).Methods("POST")
+		request.HandleFunc(ap0001_mongo_engine.InsertConfig, mongoServer.InsertNewConfig).Methods("POST")
 
 		// example http://localhost:8085/delete?app=testApplication&bin=0.0.2&site=dev
-		request.HandleFunc(controllers.DELETE_CONFIG, mongoServer.DeleteRecordUsingID).Methods("DELETE")
+		request.HandleFunc(ap0001_mongo_engine.DeleteConfig, mongoServer.DeleteRecordUsingID).Methods("DELETE")
 
 		server := &graceful.Server{
 			Timeout: 30 * time.Second,
