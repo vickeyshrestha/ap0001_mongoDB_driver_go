@@ -1,25 +1,54 @@
 package behaviorDrivenTest
 
 import (
-	"github.com/DATA-DOG/godog"
-	"net/http/httptest"
-	"net/http"
-	"fmt"
 	"ap0001_mongo_engine/internal/healthCheck"
-	"io/ioutil"
+	"ap0001_mongo_engine/mocks"
 	"encoding/json"
+	"fmt"
+	"github.com/DATA-DOG/godog"
+	"io/ioutil"
+	"net/http"
+	"net/http/httptest"
 	"strings"
+	"time"
 )
 
-type apiFeature struct{
+type apiFeature struct {
 	resp *httptest.ResponseRecorder
 }
 
-func (a *apiFeature) resetResponse(interface{}){
+func (a *apiFeature) resetResponse(interface{}) {
 	a.resp = httptest.NewRecorder()
 }
 
 func (a *apiFeature) iSendRequestUsingThe(requestMethod, uri string) (err error) {
+	req, err := http.NewRequest(requestMethod, uri, nil)
+	if err != nil {
+		return
+	}
+	defer func() {
+		switch t := recover().(type) {
+		case string:
+			err = fmt.Errorf(t)
+		case error:
+			err = t
+		}
+	}()
+
+	switch uri {
+	case "/health":
+		mockInitialConfig := &mocks.InitialConfig{}
+		mockInitialConfig.On("GetApplicationBinary").Return("0.0.1")
+		mockInitialConfig.On("GetAppStartupTime").Return(time.Now())
+		service, _ := healthCheck.NewHealthService(mockInitialConfig)
+		service.HealthCheckHandler(a.resp, req)
+	default:
+		err = fmt.Errorf("bad uri: %s", uri)
+	}
+	return
+}
+
+/*func (a *apiFeature) iSendRequestUsingThe(requestMethod, uri string) (err error) {
 	req, err := http.NewRequest(requestMethod, uri, nil)
 	if err != nil {
 		return
@@ -40,11 +69,11 @@ func (a *apiFeature) iSendRequestUsingThe(requestMethod, uri string) (err error)
 		err = fmt.Errorf("Bad URI", uri)
 	}
 	return
-}
+}*/
 
 func (a *apiFeature) iShouldBeGettingAsExpected(httpCode int) error {
-	if httpCode != a.resp.Code{
-		return fmt.Errorf("The expected http code is wrong. Expected %d, Returned %d", httpCode, a.resp.Code)
+	if httpCode != a.resp.Code {
+		return fmt.Errorf("expected http code is wrong. Expected %d, Returned %d", httpCode, a.resp.Code)
 	}
 	return nil
 }
@@ -52,12 +81,12 @@ func (a *apiFeature) iShouldBeGettingAsExpected(httpCode int) error {
 func (a *apiFeature) aJSONResponseWithAnd(applicationName, healthStatus string) error {
 	var jsonResponseForHealth healthCheck.HealthEndpoint
 	body, _ := ioutil.ReadAll(a.resp.Body)
-	json.Unmarshal(body, &jsonResponseForHealth)
-	if !strings.EqualFold(string(jsonResponseForHealth.Application), applicationName){
-		return fmt.Errorf("Expected application name: %s, Actual: %s", applicationName, string(jsonResponseForHealth.Application))
+	_ = json.Unmarshal(body, &jsonResponseForHealth)
+	if !strings.EqualFold(string(jsonResponseForHealth.Application), applicationName) {
+		return fmt.Errorf("expected application name: %s, Actual: %s", applicationName, string(jsonResponseForHealth.Application))
 	}
-	if !strings.EqualFold(string(jsonResponseForHealth.HealthStatus), healthStatus){
-		return fmt.Errorf("Expected health status of application name: %s, Actual: %s",healthStatus, string(jsonResponseForHealth.HealthStatus))
+	if !strings.EqualFold(string(jsonResponseForHealth.HealthStatus), healthStatus) {
+		return fmt.Errorf("expected health status of application name: %s, Actual: %s", healthStatus, string(jsonResponseForHealth.HealthStatus))
 	}
 	return nil
 }
@@ -67,5 +96,5 @@ func FeatureContext(s *godog.Suite) {
 	s.BeforeScenario(api.resetResponse)
 	s.Step(`^I send "(GET|POST|PUT|DELETE)" request using the "([^"]*)"$`, api.iSendRequestUsingThe)
 	s.Step(`^I should be getting (\d+) as expected$`, api.iShouldBeGettingAsExpected)
-	s.Step(`^a JSON response with "([^"]*)" and "([^"]*)"$`,api.aJSONResponseWithAnd)
+	s.Step(`^a JSON response with "([^"]*)" and "([^"]*)"$`, api.aJSONResponseWithAnd)
 }

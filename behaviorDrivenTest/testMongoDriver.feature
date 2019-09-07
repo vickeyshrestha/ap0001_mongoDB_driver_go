@@ -11,4 +11,4 @@ Feature: Test the application config operations and health status
 
     Examples:
       | requestType | URL       | httpStatusCode | applicationName  | healthStatus |
-      | "GET"       | "/health" | 200            | "MongoDB Driver" | "200 OK"     |
+      | "GET"       | "/health" | 200            | "Mongo Engine" | "200 OK"     |
