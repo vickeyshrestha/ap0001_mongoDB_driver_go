@@ -38,18 +38,18 @@ func (s *Server) InsertNewConfig(w http.ResponseWriter, r *http.Request) {
 
 	var clientConfig bson.M // Since we don't know the exact structure of JSON, we will use a map instead of struct
 	b, _ := ioutil.ReadAll(r.Body)
-	json.Unmarshal(b, &clientConfig)
+	_ = json.Unmarshal(b, &clientConfig)
 	appName, okAppName := clientConfig["applicationName"]
 	binVer, okBinVer := clientConfig["binaryVersion"]
 	site, okSite := clientConfig["site"]
 	if !(okAppName && okBinVer && okSite) {
-		w.Write([]byte("Missing field. The fields applicationName, binaryVersion and site are mandatory"))
+		_, _ = w.Write([]byte("Missing field. The fields applicationName, binaryVersion and site are mandatory"))
 	} else {
 		collection := session.DB(s.config.GetMongoConfigurationDatabase()).C(s.config.GetMongoConfigurationDbCollectionName())
 		if err := collection.Insert(clientConfig); err != nil {
 			panic(err)
 		} else {
-			w.Write([]byte("Successfully Inserted config"))
+			_, _ = w.Write([]byte("Successfully Inserted config"))
 			log.Printf("Successfully Inserted config : %v, %v & %v", appName, binVer, site)
 		}
 	}
@@ -72,7 +72,7 @@ func (s *Server) GetClientConfigAll(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	responseByte, _ := json.Marshal(clientConfig)
-	w.Write(responseByte)
+	_, _ = w.Write(responseByte)
 }
 
 /*
@@ -119,7 +119,7 @@ func (s *Server) GetClientConfigBasedOnAppNameAndBinaryVersionAndSite(w http.Res
 			})
 		}
 	}
-	w.Write(responseByte)
+	_, _ = w.Write(responseByte)
 }
 
 /*
@@ -148,19 +148,19 @@ func (s *Server) DeleteRecordUsingID(w http.ResponseWriter, r *http.Request) {
 		})
 		if err != nil {
 			msg := "Error while removing record with params " + appName + ", " + binaryVersion + " and " + site + " | Message: " + err.Error()
-			w.Write([]byte(msg))
+			_, _ = w.Write([]byte(msg))
 			log.Printf(msg)
 		} else {
 			if info.Removed > 1 {
 				msg := strconv.Itoa(info.Removed) + " record(s) with param " + appName + ", " + binaryVersion + " and " + site + " removed"
-				w.Write([]byte(msg))
+				_, _ = w.Write([]byte(msg))
 				log.Printf(msg)
 			} else {
 				msg := "No record with param " + appName + ", " + binaryVersion + " and " + site + " was found"
-				w.Write([]byte(msg))
+				_, _ = w.Write([]byte(msg))
 				log.Printf(msg)
 			}
 		}
 	}
-	w.Write(responseByte)
+	_, _ = w.Write(responseByte)
 }
