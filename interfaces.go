@@ -19,5 +19,13 @@ type InitialConfig interface {
 }
 
 type HealthHandler interface {
-	HealthCheck(writer http.ResponseWriter, request *http.Request)
+	HealthCheck(http.ResponseWriter, *http.Request)
+}
+
+type MongoAdapter interface {
+	InsertNewConfig(http.ResponseWriter, *http.Request)
+	GetClientConfigAll(http.ResponseWriter, *http.Request)
+	GetClientConfigBasedOnAppNameAndBinaryVersionAndSite(http.ResponseWriter, *http.Request)
+	DeleteRecordUsingID(http.ResponseWriter, *http.Request)
+	Close()
 }

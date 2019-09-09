@@ -16,7 +16,7 @@ type Server struct {
 	config  ap0001_mongo_engine.InitialConfig
 }
 
-func NewServer(config ap0001_mongo_engine.InitialConfig) (*Server, error) {
+func NewServer(config ap0001_mongo_engine.InitialConfig) (ap0001_mongo_engine.MongoAdapter, error) {
 	var mongoDbURL = *config.GetMongoHostAndPort()
 	session, err := mgo.Dial(mongoDbURL)
 	if err != nil {
@@ -25,6 +25,9 @@ func NewServer(config ap0001_mongo_engine.InitialConfig) (*Server, error) {
 	return &Server{session: session, config: config}, nil
 }
 
+/*
+	For defer close
+*/
 func (s *Server) Close() {
 	s.session.Close()
 }

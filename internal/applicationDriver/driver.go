@@ -27,7 +27,7 @@ func Start(config ap0001_mongo_engine.InitialConfig) {
 			panic(err)
 		}
 
-		server := NewService(*mongoServer, healthServer)
+		server := NewService(mongoServer, healthServer)
 		server.Routes(request)
 
 		ip, err := generalUtilities.ExternalIP()

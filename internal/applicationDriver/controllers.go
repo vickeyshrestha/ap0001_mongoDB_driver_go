@@ -2,7 +2,6 @@ package applicationDriver
 
 import (
 	"ap0001_mongo_engine"
-	"ap0001_mongo_engine/internal/mongoAdapter"
 	"github.com/gorilla/mux"
 	"gopkg.in/tylerb/graceful.v1"
 	"net/http"
@@ -10,11 +9,11 @@ import (
 )
 
 type Service struct {
-	mongo  mongoAdapter.Server
+	mongo  ap0001_mongo_engine.MongoAdapter
 	health ap0001_mongo_engine.HealthHandler
 }
 
-func NewService(mongoServer mongoAdapter.Server, healthServer ap0001_mongo_engine.HealthHandler) *Service {
+func NewService(mongoServer ap0001_mongo_engine.MongoAdapter, healthServer ap0001_mongo_engine.HealthHandler) *Service {
 	return &Service{
 		mongo:  mongoServer,
 		health: healthServer,
