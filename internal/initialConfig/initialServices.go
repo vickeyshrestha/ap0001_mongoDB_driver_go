@@ -8,15 +8,15 @@ import (
 
 // ---- BEGIN part of config file ------------
 
-func (c configFileStruct) GetApplicationSite() string {
+func (c configFile) GetApplicationSite() string {
 	return strings.Join(c.Site, "")
 }
 
-func (c configFileStruct) GetApplicationBinary() string {
+func (c configFile) GetApplicationBinary() string {
 	return strings.Join(c.BinaryVersion, "")
 }
 
-func (c configFileStruct) GetHttpClient() http.Client {
+func (c configFile) GetHttpClient() http.Client {
 	var httpConnectionTimeout = int32(c.HTTPConnectionTimeout)
 	var client = http.Client{
 		Timeout: time.Duration(httpConnectionTimeout) * time.Second,
@@ -24,32 +24,32 @@ func (c configFileStruct) GetHttpClient() http.Client {
 	return client
 }
 
-func (c configFileStruct) GetMongoConfigurationDatabase() string {
+func (c configFile) GetMongoConfigurationDatabase() string {
 	return strings.Join(c.MongoConfigurationDatabase, "")
 }
 
-func (c configFileStruct) GetMongoConfigurationDbCollectionName() string {
+func (c configFile) GetMongoConfigurationDbCollectionName() string {
 	return strings.Join(c.MongoConfigurationDbCollectionName, "")
 }
 
 //-----------END part of config file ------------
 
-func (c configFileStruct) GetAppStartupTime() time.Time {
+func (c configFile) GetAppStartupTime() time.Time {
 	return appStartUpTime
 }
 
-func (c configFileStruct) GetMongoHostAndPort() *string {
+func (c configFile) GetMongoHostAndPort() *string {
 	return mongoDbHostAndPort
 }
 
-func (c configFileStruct) GetSslKey() *string {
+func (c configFile) GetSslKey() *string {
 	return sslKey
 }
 
-func (c configFileStruct) GetSslCert() *string {
+func (c configFile) GetSslCert() *string {
 	return sslCert
 }
 
-func (c configFileStruct) GetSSLMode() *string {
+func (c configFile) GetSSLMode() *string {
 	return devMode
 }

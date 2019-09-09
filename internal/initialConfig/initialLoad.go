@@ -32,7 +32,7 @@ var (
 
 func NewConfiguration() (ap0001_mongo_engine.InitialConfig, error) {
 	log.Printf("%v | INFO: %v | Reading config file from application resources.....", time.Now().Format(time.RFC1123), ap0001_mongo_engine.ApplicationName)
-	configFromJsonFile := configFileStruct{}
+	configFromJsonFile := configFile{}
 	decoderConfigFile := json.NewDecoder(configJsonFile)
 	errDecode := decoderConfigFile.Decode(&configFromJsonFile)
 	if errDecode != nil {

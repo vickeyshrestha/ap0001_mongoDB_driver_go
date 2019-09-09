@@ -1,6 +1,6 @@
 package initialConfig
 
-type configFileStruct struct {
+type configFile struct {
 	Site                               []string `json:"site"`
 	BinaryVersion                      []string `json:"binary_version"`
 	HTTPConnectionTimeout              int      `json:"http_connection_timeout"`
