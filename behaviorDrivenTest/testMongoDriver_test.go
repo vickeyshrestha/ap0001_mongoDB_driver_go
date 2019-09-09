@@ -41,7 +41,7 @@ func (a *apiFeature) iSendRequestUsingThe(requestMethod, uri string) (err error)
 		mockInitialConfig.On("GetApplicationBinary").Return("0.0.1")
 		mockInitialConfig.On("GetAppStartupTime").Return(time.Now())
 		service, _ := healthCheck.NewHealthService(mockInitialConfig)
-		service.HealthCheckHandler(a.resp, req)
+		service.HealthCheck(a.resp, req)
 	default:
 		err = fmt.Errorf("bad uri: %s", uri)
 	}
