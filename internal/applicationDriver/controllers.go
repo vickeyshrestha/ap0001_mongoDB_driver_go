@@ -2,7 +2,6 @@ package applicationDriver
 
 import (
 	"ap0001_mongo_engine"
-	"ap0001_mongo_engine/internal/healthCheck"
 	"ap0001_mongo_engine/internal/mongoAdapter"
 	"github.com/gorilla/mux"
 	"gopkg.in/tylerb/graceful.v1"
@@ -12,10 +11,10 @@ import (
 
 type Service struct {
 	mongo  mongoAdapter.Server
-	health healthCheck.Service
+	health ap0001_mongo_engine.HealthHandler
 }
 
-func NewService(mongoServer mongoAdapter.Server, healthServer healthCheck.Service) *Service {
+func NewService(mongoServer mongoAdapter.Server, healthServer ap0001_mongo_engine.HealthHandler) *Service {
 	return &Service{
 		mongo:  mongoServer,
 		health: healthServer,
@@ -24,7 +23,7 @@ func NewService(mongoServer mongoAdapter.Server, healthServer healthCheck.Servic
 
 func (s *Service) Routes(request *mux.Router) *graceful.Server {
 	// example: http://localhost:8085/health
-	request.HandleFunc(ap0001_mongo_engine.HealthCheck, s.health.HealthCheckHandler).Methods("GET")
+	request.HandleFunc(ap0001_mongo_engine.HealthCheck, s.health.HealthCheck).Methods("GET")
 
 	// example: http://localhost:8085/getallconfigs
 	request.HandleFunc(ap0001_mongo_engine.GetAllConfigsFromDatabase, s.mongo.GetClientConfigAll).Methods("GET")

@@ -17,3 +17,7 @@ type InitialConfig interface {
 	GetSslCert() *string
 	GetSSLMode() *string
 }
+
+type HealthHandler interface {
+	HealthCheck(writer http.ResponseWriter, request *http.Request)
+}
