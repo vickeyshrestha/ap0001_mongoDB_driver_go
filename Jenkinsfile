@@ -28,5 +28,82 @@ node ('vic_node && server_1') {
                 junit 'report.xml'
             }
         }
+
+        stage ('Test Coverage') {
+            dir ("${pwd}/go/src/ap0001_mongo_engine") {
+                sh '''  go get github.com/axw/gocov/gocov;
+                        go get github.com/math/gocov-html;
+                        go get github.com/AlekSi/gocov-xml;
+                    '''
+                def coverageHtml = sh(returnStdout: true, script: '''gocov test -v $(go list ./... | grep -v /vendor) | gocov-html''')
+                writeFile file: 'coverage.html', text: "$coverageHtml"
+                checkCoverage()
+                publishHtml([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: '', reportFiles: 'coverage.html', reportName: 'Test Coverage Report'])
+            }
+        }
+
+        stage ('Static analysis') {
+            dir ("${pwd}/go/src/ap0001_mongo_engine") {
+                sh "go vet \$(go list ./... | grep -v /vendor)"
+            }
+        }
+
+        stage ('build') {
+             dir ("${pwd}/go/src/ap0001_mongo_engine") {
+                sh "CGO_ENABLED=0 GOOS=linux go build -o ap0001_mongo_engine -ldflags '-w -s' cmd/main.go"
+             }
+        }
+
+        stage ('Build Docker Image') {
+             dir ("${pwd}/go/src/ap0001_mongo_engine") {
+                sh "docker build -t vickeyshrestha/ap0001_mongo_engine:${MONGO_ENGINE_VERSION} ."
+             }
+        }
+
+        // NEW - We will do some performance testing as well
+        stage ('save and stash image in Jenkins node') {
+            dir ("${pwd}/go/src/ap0001_mongo_engine") {
+                sh "docker save vickeyshrestha/ap0001_mongo_engine:${MONGO_ENGINE_VERSION} > mongoEng.tar"
+                stash name: "DockerImage", includes: "mongoEng.tar"
+                stash name: "JMeter", includes: "performanceTest/MongoEngine_performance_10TPS.jmx"
+            }
+        }
+
+        // Now we will unstash in server_2, our server for exclusively running performance test only, and run JMeter over it
+        node('server_2') {
+            stage ('Load and Unstash on performance node') {
+                unstash "DockerImage"
+                unstash "JMeter"
+                sh "docker load < mongoEng.tar"
+                sh "ls -lart"
+                sh "docker images"
+            }
+
+            stage ('Performance Test') {
+                // Looking into JMeter and will update this portion later
+            }
+        }
+
+        // if everything looks fine, time to push into docker repository
+        stage ('Push to Dockerhub') {
+            if (env.BRANCH_NAME == 'master') {
+                dir ("${pwd}/go/src/ap0001_mongo_engine") {
+                    sh "docker push vickeyshrestha/ap0001_mongo_engine:${MONGO_ENGINE_VERSION}"
+                }
+            } else {
+                echo "skipping image push because it is not a master branch."
+            }
+        }
+
+    } catch (e) {
+        currentBuild.result = "FAILED"
+        throw e
+    } finally {
+        notifyDevelopers(currentBuild.result)
     }
+}
+
+def notifyDevelopers(String buildStatus) {
+    subject = "${buildStatus}: Build ${env.BRANCH_NAME} ${env.BUILD_NUMBER}"
+    details = "${buildStatus}: \n Job: ${env.JOB_NAME} \n Build#: ${env.BUILD_NUMBER} \n The latest build failed. Please check attached console output or view console output at ${env.BUILD_URL}"
 }
