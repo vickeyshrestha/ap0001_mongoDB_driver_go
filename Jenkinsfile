@@ -106,4 +106,22 @@ node ('vic_node && server_1') {
 def notifyDevelopers(String buildStatus) {
     subject = "${buildStatus}: Build ${env.BRANCH_NAME} ${env.BUILD_NUMBER}"
     details = "${buildStatus}: \n Job: ${env.JOB_NAME} \n Build#: ${env.BUILD_NUMBER} \n The latest build failed. Please check attached console output or view console output at ${env.BUILD_URL}"
+
+    if ((buildStatus == "FAILURE") && (env.BRANCH_NAME == 'master')) {
+        emailext attachLog: true, body: details, subject: subject, to: 'vickey.shrestha.1987@gmail.com'
+    } else if (buildStatus == "FAILURE") {
+        emailext attachLog: true, body:details, recipientProviders: [[$Class:'culpritsRecipientProvider'], [$class: 'DevelopersRecipientProvider']], subject: subject
+    }
+}
+
+def checkCoverage() {
+    def total = sh(returnStdout: true, script: '''totalCoverage=$(awk -F "[><]" '/totalcov/{print $3}' coverage.html)
+    totalCoverage = ${totalCoverage%?}
+    echo "${totalCoverage}"''')
+
+    double coverageThreshold = 72
+    double totalCoverage = total.trim() as Double
+    if (totalCoverage < coverageThreshold) {
+        error "Test coverage not enough. Currently at ${totalCoverage}%. Requires ${coverageThreshold}%"
+    }
 }
