@@ -1,7 +1,7 @@
 package healthCheck
 
 import (
-	"ap0001_mongo_engine"
+	"ap0001_mongo_engine-DEPRECIATED"
 	"encoding/json"
 	"net/http"
 	"time"

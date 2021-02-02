@@ -1,7 +1,7 @@
 package initialConfig
 
 import (
-	"ap0001_mongo_engine"
+	"ap0001_mongo_engine-DEPRECIATED"
 	"encoding/json"
 	"flag"
 	"log"

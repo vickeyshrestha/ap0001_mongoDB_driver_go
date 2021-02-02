@@ -1,8 +1,8 @@
 package behaviorDrivenTest
 
 import (
-	"ap0001_mongo_engine/internal/healthCheck"
-	"ap0001_mongo_engine/mocks"
+	"ap0001_mongo_engine-DEPRECIATED/internal/healthCheck"
+	"ap0001_mongo_engine-DEPRECIATED/mocks"
 	"encoding/json"
 	"fmt"
 	"github.com/DATA-DOG/godog"

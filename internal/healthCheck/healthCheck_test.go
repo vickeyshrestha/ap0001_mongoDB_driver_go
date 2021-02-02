@@ -1,8 +1,8 @@
 package healthCheck_test
 
 import (
-	"ap0001_mongo_engine/internal/healthCheck"
-	"ap0001_mongo_engine/mocks"
+	"ap0001_mongo_engine-DEPRECIATED/internal/healthCheck"
+	"ap0001_mongo_engine-DEPRECIATED/mocks"
 	"net/http"
 	"net/http/httptest"
 	"testing"

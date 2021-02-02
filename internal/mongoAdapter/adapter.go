@@ -1,7 +1,7 @@
 package mongoAdapter
 
 import (
-	"ap0001_mongo_engine"
+	"ap0001_mongo_engine-DEPRECIATED"
 	"encoding/json"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"

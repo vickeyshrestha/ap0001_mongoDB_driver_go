@@ -1,10 +1,10 @@
 package applicationDriver
 
 import (
-	"ap0001_mongo_engine"
-	"ap0001_mongo_engine/internal/generalUtilities"
-	"ap0001_mongo_engine/internal/healthCheck"
-	"ap0001_mongo_engine/internal/mongoAdapter"
+	"ap0001_mongo_engine-DEPRECIATED"
+	"ap0001_mongo_engine-DEPRECIATED/internal/generalUtilities"
+	"ap0001_mongo_engine-DEPRECIATED/internal/healthCheck"
+	"ap0001_mongo_engine-DEPRECIATED/internal/mongoAdapter"
 	"fmt"
 	"github.com/gorilla/mux"
 	"log"
